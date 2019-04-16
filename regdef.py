@@ -2,6 +2,7 @@
 
 import io
 import re
+import sys
 import copy
 import json
 import math
@@ -576,6 +577,8 @@ def main():
                         help='Prefix string for the generated code')
     parser.add_argument('-n', '--n-bits', nargs=1, default=32, type=int,
                         help='Number of bits used for uintN_t variables for register type')
+    parser.add_argument('-o', '--output-file', required=False,
+                        help='Write output to a file')
     parser.add_argument('regdef', help='Register description json file')
     args = parser.parse_args()
 
@@ -583,16 +586,28 @@ def main():
                                         comments=not args.no_comments,
                                         prefix=args.prefix, cpp=not args.C)
 
+    out = io.StringIO()
+
     if args.command == 'show':
         for register in registers:
-            print('ADDRESS = %s' % register['address'])
-            register['reg'].pprint()
+            out.write('ADDRESS = %s\n' % register['address'])
+            out.write(register['reg'].repr_long() + '\n')
     else:
+        if args.output_file:
+            out.write('// This code has been auto-generated using command:\n')
+            out.write('//   %s\n' % ' '.join(sys.argv))
+            out.write('// See: https://github.com/yendreij/regdef-py\n')
+            out.write('\n')
         for c in code:
-            print(c)
+            out.write(c + '\n')
             if not c.strip().startswith('//'):
-                print()
+                out.write('\n')
 
+    if args.output_file:
+        with open(args.output_file, 'w') as f:
+            f.write(out.getvalue())
+    else:
+        sys.stdout.write(out.getvalue())
 
 if __name__ == "__main__":
     main()
