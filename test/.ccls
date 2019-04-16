@@ -1,0 +1,8 @@
+clang
+%c -std=c99
+%cpp -std=c++2a
+-I../Unity/src
+-Wall
+-Wextra
+-pedantic
+-Wno-missing-field-initializers

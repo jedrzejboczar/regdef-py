@@ -1,0 +1,316 @@
+
+{
+
+    "// General Configuration Registers": "",
+    "GCONF": {
+        "address": "0x00",
+        "defs": [
+            "_:2:0",
+            "poscmp_enable:3",
+            "_:6:4",
+            "test_mode:7",
+            "shaft1:8",
+            "shaft2:9",
+            "lock_gconf:10",
+            "_:11"
+        ]
+    },
+    "GSTAT": {
+        "address": "0x01",
+        "defs": [
+            "reset:@1",
+            "drv_err1:@1",
+            "drv_err2:@1",
+            "uv_cp:@1"
+        ]
+    },
+    "TEST_SEL": {
+        "address": "0x03",
+        "defs": [
+            "_:@4"
+        ]
+    },
+    "INPUT": {
+        "address": "0x04",
+        "defs": [
+            "_:0:6",
+            "drv_enn_in:7",
+            "_:8",
+            "version:31:24"
+        ]
+    },
+    "X_COMPARE": {
+        "address": "0x05",
+        "defs": [
+            "x_compare:@32"
+        ]
+    },
+
+    "// Ramp Generator Registers (for each motor)": "",
+    "RAMPMODE": {
+        "address": ["0x20", "0x40"],
+        "defs": [
+            "rampmode:0:3"
+        ]
+    },
+    "XACTUAL": {
+        "address": ["0x21", "0x41"],
+        "defs": [
+            "xactual:@32"
+        ]
+    },
+    "VACTUAL": {
+        "address": ["0x22", "0x42"],
+        "defs": [
+            "vactual:@24"
+        ]
+    },
+    "VSTART": {
+        "address": ["0x23", "0x43"],
+        "defs": [
+            "vstart:@18"
+        ]
+    },
+    "A1": {
+        "address": ["0x24", "0x44"],
+        "defs": [
+            "a1:@16"
+        ]
+    },
+    "V1": {
+        "address": ["0x25", "0x45"],
+        "defs": [
+            "v1:@20"
+        ]
+    },
+    "AMAX": {
+        "address": ["0x26", "0x46"],
+        "defs": [
+            "amax:@16"
+        ]
+    },
+    "VMAX": {
+        "address": ["0x27", "0x47"],
+        "defs": [
+            "vmax:@23"
+        ]
+    },
+    "DMAX": {
+        "address": ["0x26", "0x46"],
+        "defs": [
+            "dmax:@16"
+        ]
+    },
+    "D1": {
+        "address": ["0x2a", "0x4a"],
+        "defs": [
+            "d1:@16"
+        ]
+    },
+    "VSTOP": {
+        "address": ["0x2b", "0x4b"],
+        "defs": [
+            "vstop:@18"
+        ]
+    },
+    "TZEROWAIT": {
+        "address": ["0x2c", "0x4c"],
+        "defs": [
+            "tzerowait:@16"
+        ]
+    },
+    "XTARGET": {
+        "address": ["0x2d", "0x4d"],
+        "defs": [
+            "xtarget:@32"
+        ]
+    },
+
+    "// Ramp Generator Driver Feature Control (for each motor)": "",
+    "IHOLD_IRUN": {
+        "address": ["0x30", "0x50"],
+        "defs": [
+            "ihold:0:4",
+            "_:5:7",
+            "irun:12:8",
+            "_:15:13",
+            "iholddelay:19:16"
+        ]
+    },
+    "VCOOLTHRS": {
+        "address": ["0x31", "0x51"],
+        "defs": [
+            "vcoolthrs:@23"
+        ]
+    },
+    "VHIGH": {
+        "address": ["0x32", "0x52"],
+        "defs": [
+            "vhigh:@23"
+        ]
+    },
+    "SW_MODE": {
+        "address": ["0x34", "0x54"],
+        "defs": [
+            "stop_l_enable:0",
+            "stop_r_enable:1",
+            "pol_stop_l:2",
+            "pol_stop_r:3",
+            "swap_lr:4",
+            "latch_l_active:5",
+            "latch_l_inactive:6",
+            "latch_r_active:7",
+            "latch_r_inactive:8",
+            "_:9",
+            "sg_stop:10",
+            "en_softstop:11"
+        ]
+    },
+    "RAMP_STAT": {
+        "address": ["0x35", "0x55"],
+        "defs": [
+            "status_stop_l:0",
+            "status_stop_r:1",
+            "status_latch_l:2",
+            "status_latch_r:3",
+            "event_stop_l:4",
+            "event_stop_r:5",
+            "event_stop_sg:6",
+            "event_pos_reached:7",
+            "velocity_reached:8",
+            "position_reached:9",
+            "vzero:10",
+            "t_zerowait_active:11",
+            "second_move:12",
+            "status_sg:13"
+        ]
+    },
+    "XLATCH": {
+        "address": ["0x36", "0x56"],
+        "defs": [
+            "xlatch:@32"
+        ]
+    },
+
+    "// Microstep Table Registers": "",
+    "MSLUT": {
+        "address": ["0x60", "0x61", "0x62", "0x63", "0x64", "0x65", "0x66", "0x67"],
+        "defs": [
+            "mslut:@32"
+        ]
+    },
+    "MSLUTSEL": {
+        "address": "0x68",
+        "defs": [
+            "w0:0:1",
+            "w1:2:3",
+            "w2:4:5",
+            "w3:6:7",
+            "x1:8:15",
+            "x2:16:23",
+            "x3:24:31"
+        ]
+    },
+    "MSLUTSTART": {
+        "address": "0x69",
+        "defs": [
+            "start_sin:7:0",
+            "_:15:8",
+            "start_sin90:23:16"
+        ]
+    },
+
+    "// Motor Driver Registers": "",
+    "MSCNT": {
+        "address": ["0x6a", "0x7a"],
+        "defs": [
+            "mscnt:@10"
+        ]
+    },
+    "MSCURACT": {
+        "address": ["0x6b", "0x7b"],
+        "defs": [
+            "cur_a:8:0",
+            "_:15:9",
+            "cur_b:24:16"
+        ]
+    },
+    "CHOPCONF": {
+        "address": ["0x6c", "0x7c"],
+        "defs": [
+            "toff:0:3",
+            "hstrt:4:6",
+            "hend:7:10",
+            "fd3:11",
+            "disfdcc:12",
+            "rndtf:13",
+            "chm:14",
+            "tbl:15:16",
+            "vsense:17",
+            "vhighfs:18",
+            "vhighchm:19",
+            "_:20:23",
+            "mres:24:27",
+            "_:28:29",
+            "diss2g:30",
+            "_:31"
+        ]
+    },
+    "COOLCONF": {
+        "address": ["0x6d", "0x7d"],
+        "defs": [
+            "semin:0:3",
+            "_:4",
+            "seup:5:6",
+            "semax:8:11",
+            "_:12",
+            "sedn:13:14",
+            "seimin:15",
+            "sgt:16:22",
+            "_:23",
+            "sfilt:24",
+            "_:25"
+        ]
+    },
+    "DRV_STATUS": {
+        "address": ["0x6f", "0x7f"],
+        "defs": [
+            "sg_result:0:9",
+            "_:10:14",
+            "fsactive:15",
+            "cs_actual:16:20",
+            "_:21:23",
+            "stallguard:24",
+            "ot:25",
+            "otpw:26",
+            "s2ga:27",
+            "s2gb:28",
+            "ola:29",
+            "olb:30",
+            "stst:31"
+        ]
+    },
+
+    "// Voltage PWM mode stealthChop": "",
+    "PWMCONF": {
+        "address": ["0x10", "0x18"],
+        "defs": [
+            "pwm_ampl:0:7",
+            "pwm_grad:8:15",
+            "pwm_freq:16:17",
+            "pwm_autoscale:18",
+            "_:19",
+            "freewheel:20:21",
+            "_:22"
+        ]
+    },
+    "PWM_STATUS": {
+        "address": ["0x11", "0x19"],
+        "defs": [
+            "pwm_status:@8"
+        ]
+    },
+
+    "": ""
+}
+

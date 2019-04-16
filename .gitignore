@@ -1,0 +1,3 @@
+/test/test_*-c
+/test/test_*-cpp
+/test/*.gen.*
