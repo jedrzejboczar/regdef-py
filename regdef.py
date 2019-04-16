@@ -86,8 +86,6 @@ class Register:
             lengths.append(length)
             positions.append(position)
 
-        # TODO: reinterpret position data
-
         # if not even two positions have been specified, do not assume order
         n_positions = sum(pos is not None for pos in positions)
         #  assert n_positions > 1, 'At least 2 positions are required to assume order of bits'

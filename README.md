@@ -1,4 +1,4 @@
-# regdef
+# regdef-py
 
 Script for generating C/C++ register access code based on a register description written as JSON file.
 
