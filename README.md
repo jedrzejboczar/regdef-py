@@ -1,14 +1,13 @@
 # regdef-py
 
-Script for generating C/C++ register access code based on a register description written as JSON file.
+Simple script for generating C/C++ register access code based on a register description written as JSON file.
 
----
 
 Why did I do this? Maybe I have to much time. But whenever I have to access registers of some chip, I try to find some libraries/headers on the internet. But, if I find something, then it is usually some Arduino code, or just a simple list of register addresses, or some BSP that just does and weights too much. I just wanted to check if the approach taken here is general enough to be useful in regular projects (and no, I didn't find any free to use thing like this on the web).
 
 The code in *regdef.py* is quite...bad, but it has been done quickly, this is still just a proof of concept. If this proves to be useful, then we can think about refactoring or something.
 
-It could probably be done better, any feedback welcome.
+Most probably it could have been done better, any feedback welcome.
 
 ## Register description
 
@@ -25,6 +24,8 @@ The important thing is to define fields sequentially. By default order starting 
 Register access has always been somewhat problematic and error prone. If we are concerned about super-efficiency, then probably the best we can do is to use `#define` only. Or maybe some cpp-fu black magic with templates.
 
 The approach taken here is to use structures with bitfields. This gives quite a nice and elegant way for bit access and the compiler has to do the hard work for us. Unfortunately C/C++ standards don't give any guarantee on memory layout of such a struct, so we can't access the raw memory directly. Because of this a pair of methods/macros is generated for converting to/from raw data to the register structure. These should probably be fast and optimized away with compiler optimizations enabled, while allow for quite nice-to-use API. Then, to resolve endianess problems, we can just use standard C library functions, like `htonl()` and `ntohl()`.
+
+One could want the registers in C++ code to derive from some abstract `Register` base class. But I feel like this would unnecessarily complicate the whole design. These structures are meant to be used temporarily for accessing fields. When we need to store multiple registers continuously in memory, an array of unsigned integers would do. And we would just convert to structures when actually needed. And for dispatching on the register type, we can just check the register's address and use a switch.
 
 ## Tests
 
@@ -211,3 +212,46 @@ struct SW_MODE {
     uint32_t en_softstop:1;
 };
 ```
+
+## Minimal API usage example
+
+This is a minimal demonstration of how these structures could be used. This is in C++, but for C it is almost the same.
+
+```cpp
+// define the register value
+// this initialization part requires C++20, but of course it could be omitted
+SW_MODE reg = {
+    .stop_l_enable = 1,
+    .stop_r_enable = 1,
+    .latch_l_active = 1,
+    .latch_r_active = 1,
+    .en_softstop = 1,
+};
+
+// convert it to raw register value
+uint32_t val = reg.raw();
+
+// avoid problems with endianness by converting to network order
+uint32_t val_big_endian = htonl(val);
+uint8_t *bytes = (uint8_t *) val_big_endian;
+
+// prepare SPI message
+uint8_t address = reg.address[0];
+uint8_t buf[] = { address, bytes[0], bytes[1], bytes[2], bytes[3] };
+
+// send the message
+spi_send(buf, sizeof(buf));
+
+// for reading we do similar...
+// assuming we've got register value in uint32_t and know which register it is
+uint32_t val_received = get_raw_received_value();
+
+// convert to our structure
+auto reg_received = SW_MODE::from_raw(val_received);
+
+// and use it...
+if (reg_received.stop_l_enable && reg_received.stop_r_enable) {
+    // ...
+}
+```
+
